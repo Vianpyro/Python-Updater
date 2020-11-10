@@ -1,12 +1,12 @@
 # Import included libraries
 import urllib.request as dlurl
-from os import path
+from os import path, remove
 from json import loads
 from zipfile import ZipFile
 
 # Parameters
 auto_update = True
-auto_download = False
+auto_download = True
 github_user = 'Vianpyro'
 github_repo = 'Python-Updater'
 
@@ -18,41 +18,55 @@ updater_auto_download = False
 updater_user = 'Vianpyro'
 updater_repo = 'Python-Updater'
 
+# Creation of a list containing the variables in order to be able to process "easily" the link(s) to be processed
 parameters = [
     [auto_update, auto_download, github_user, github_repo],
     [updater_auto_update, updater_auto_download, updater_user, updater_repo]
 ]
 
 for i in range(len(parameters)):
+    # Searching for the latest version if the program is set to auto update
     if parameters[i][0]:
         try:
             resp = dlurl.urlopen(
                 f'{source_website}/repos/{parameters[i][2]}/{parameters[i][3]}/releases/latest'
             )
             data = loads(resp.read())
+            name = data['name']
             version = data['html_url'].split('/')[-1]
 
             if parameters[i][1]:
-                if path.exists(f'{version}.zip'):
-                    print(f'Your program is already running on the most recent version: {version}!')
-                else:
-                    if __name__ == "__main__":
-                        print(f'Downloading {version}...')
+                if path.exists(f'{name}.zip') or path.exists(f'{parameters[i][3]}-{version}'):
+                    print(f'Your program is already running on the most recent version: {name}!')
+                elif __name__ == "__main__":
+                    try:
+                        print(f'Downloading {parameters[i][3]} {name}...')
                         dlurl.urlretrieve(
-                            f'{source_website}/{parameters[i][2]}/{parameters[i][3]}/archive/{version}.zip',
-                            f'{version}.zip'
+                            f'https://github.com/{parameters[i][2]}/{parameters[i][3]}/archive/{version}.zip',
+                            f'{parameters[i][3]} {name}.zip'
                         )
-                        print(f'Downloaded {version} successfully.')
+                        print(f'Downloaded {parameters[i][3]} {name} successfully.')
+                    except:
+                        print(
+                            'Could not download',
+                            f'{source_website}/{parameters[i][2]}/{parameters[i][3]}/archive/{version}.zip'
+                        )
                     
-                    if not path.exists(f'{github_repo}-{version[1:]}'):
-                        print(f'Extracting {version}...')
-                        with ZipFile(f'{version}.zip', 'r') as zipf:
-                            zipf.extractall()
-                            zipf.close()
-                            print(f'Extracted {version} successfully.')
+                    try:
+                        if not path.exists(f'{github_repo}-{version}'):
+                            print(f'Extracting {parameters[i][3]} {name}...')
+                            with ZipFile(f'{parameters[i][3]} {name}.zip', 'r') as zipf:
+                                zipf.extractall()
+                                zipf.close()
+                                remove(f'{parameters[i][3]} {name}.zip')
+                                print(f'Extracted {parameters[i][3]} {name} successfully.')
+                    except:
+                        print(
+                            f'Could not extract {name}.'
+                        )
             else:
                 print(
-                    f'A new version of this program may be available: {version}, use the updater to download the latest version!'
+                    f'A new version of this program may be available: {name}.'
                 )
         except: 
             print(
