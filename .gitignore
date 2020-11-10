@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Downloaded version files
+Python-Updater-*
+
 # C extensions
 *.so
 

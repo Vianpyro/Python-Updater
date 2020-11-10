@@ -37,7 +37,7 @@ for i in range(len(parameters)):
 
             if parameters[i][1]:
                 if path.exists(f'{name}.zip') or path.exists(f'{parameters[i][3]}-{version}') or path.exists(f'{parameters[i][3]}-{version[1:]}'):
-                    print(f'Your program is already running on the most recent version: {name}!')
+                    print(f'{parameters[i][2]}/{parameters[i][3]} is already running on the most recent version: {name}!')
                 elif __name__ == "__main__":
                     try:
                         print(f'Downloading {parameters[i][3]} {name}...')
@@ -66,7 +66,7 @@ for i in range(len(parameters)):
                         )
             else:
                 print(
-                    f'A new version of this program may be available: {name}.'
+                    f'A new version of {parameters[i][2]}/{parameters[i][3]} may be available: {name}.'
                 )
         except: 
             print(
