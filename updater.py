@@ -36,7 +36,7 @@ for i in range(len(parameters)):
             version = data['html_url'].split('/')[-1]
 
             if parameters[i][1]:
-                if path.exists(f'{name}.zip') or path.exists(f'{parameters[i][3]}-{version}'):
+                if path.exists(f'{name}.zip') or path.exists(f'{parameters[i][3]}-{version}') or path.exists(f'{parameters[i][3]}-{version[1:]}'):
                     print(f'Your program is already running on the most recent version: {name}!')
                 elif __name__ == "__main__":
                     try:
