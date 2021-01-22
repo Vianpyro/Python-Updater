@@ -64,13 +64,13 @@ for i in range(len(parameters)):
                         print(
                             f'Could not extract {name}.'
                         )
-            else:
-                print(
-                    f'A new version of {parameters[i][2]}/{parameters[i][3]} may be available: {name}.'
-                )
+                else:
+                    print(
+                        f'A new version of {parameters[i][2]}/{parameters[i][3]} may be available: {name}.'
+                    )
         except: 
             print(
                 f'Unable to locate package: "{source_website}/repos/{parameters[i][2]}/{parameters[i][3]}/releases/latest"...'
             )
-    if updater_user == github_user and updater_repo == github_repo:
+    if updater_user == github_user and updater_repo == github_repo and __name__ == "__main__":
         quit()
